@@ -169,24 +169,6 @@ npm run dev
 }
 ```
 
----
-
-## 🌐 Netlify Deployment Guide
-
-This repository is pre-configured with `netlify.toml` for zero-configuration Netlify deployment:
-
-1. Push your repository to **GitHub**.
-2. Log in to [Netlify](https://app.netlify.com/) and click **"Add new site" > "Import an existing project"**.
-3. Select your GitHub repository.
-4. Set the build configuration:
-   - **Base directory**: `client`
-   - **Build command**: `npm run build`
-   - **Publish directory**: `dist`
-5. Click **Deploy Site**.
-6. (Optional) In Netlify's **Environment variables**, set `VITE_API_URL` to your deployed backend API URL (e.g. hosted on Render, Railway, or Cyclic). If not set, the frontend automatically functions in offline demo mode using browser storage!
-
----
-
 ## ✨ Design Fidelity Highlights
 
 - **Pixel-Accurate Palette**: Royal blue (`#3B5DF7`), peach/rose pending badge (`#FFF1F2`), soft blue completed badge (`#EEF4FF`).
