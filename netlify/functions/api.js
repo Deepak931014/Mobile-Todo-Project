@@ -24,3 +24,4 @@ export const handler = async (event, context) => {
   await init();
   return await serverlessHandler(event, context);
 };
+
