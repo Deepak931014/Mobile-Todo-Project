@@ -63,7 +63,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server Initialization
-const startServer = async () => {
+export const startServer = async () => {
   try {
     await connectDB();
     await seedSampleTasks();
@@ -77,5 +77,9 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// Start server if run directly
+if (!process.env.NETLIFY) {
+  startServer();
+}
 
+export default app;
