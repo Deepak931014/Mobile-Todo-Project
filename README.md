@@ -120,7 +120,7 @@ todo-mobile-app/
 
 ### 1. Clone the Repository:
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Deepak931014/Mobile-Todo-Project.git
 cd todo-mobile-app
 ```
 
