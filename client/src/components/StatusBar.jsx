@@ -35,3 +35,4 @@ export default function StatusBar({ dark = false }) {
     </div>
   );
 }
+

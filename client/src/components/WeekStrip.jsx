@@ -57,3 +57,4 @@ export default function WeekStrip({ selectedDate, onSelectDate }) {
     </div>
   );
 }
+

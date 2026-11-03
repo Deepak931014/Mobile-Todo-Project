@@ -91,3 +91,4 @@ export const formatWeekLabel = (weekStart, weekEnd) => {
   const endFmt = endD.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   return `${startFmt} - ${endFmt}`;
 };
+

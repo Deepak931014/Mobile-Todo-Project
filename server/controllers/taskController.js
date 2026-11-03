@@ -494,3 +494,4 @@ export const getWeeklyStats = async (req, res) => {
     return res.status(500).json({ success: false, message: 'Failed to compute weekly stats', error: error.message });
   }
 };
+

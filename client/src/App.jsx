@@ -7,6 +7,14 @@ import TaskModal from './components/TaskModal';
 import WeeklyOverviewModal from './components/WeeklyOverviewModal';
 import { api } from './services/api';
 import { formatDateKey } from './utils/dateUtils';
+import {
+  showTaskCreatedAlert,
+  showTaskUpdatedAlert,
+  confirmDeleteTask,
+  confirmResetData,
+  notifySuccess,
+  showErrorAlert,
+} from './utils/alertUtils';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(() => {
@@ -47,6 +55,7 @@ export default function App() {
   const handleGetStarted = () => {
     localStorage.setItem('taskflow_onboarded', 'true');
     setCurrentScreen('home');
+    notifySuccess('Welcome to TaskFlow! 👋');
   };
 
   // Reset Onboarding (from gear icon)
@@ -63,6 +72,13 @@ export default function App() {
       prev.map((t) => (t._id === task._id ? { ...t, status: nextStatus } : t))
     );
 
+    // SweetAlert Toast feedback
+    if (nextStatus === 'Completed') {
+      notifySuccess('Task completed! 🎉');
+    } else {
+      notifySuccess('Task marked as in progress');
+    }
+
     try {
       await api.updateTask(task._id, { status: nextStatus });
       // Refresh stats
@@ -74,6 +90,7 @@ export default function App() {
       setTasks((prev) =>
         prev.map((t) => (t._id === task._id ? { ...t, status: task.status } : t))
       );
+      showErrorAlert('Update Failed', 'Could not update task status.');
     }
   };
 
@@ -90,34 +107,44 @@ export default function App() {
     setIsTaskModalOpen(true);
   };
 
-  // Save Task (Create or Update)
+  // Save Task (Create or Update with SweetAlert2)
   const handleSaveTask = async (taskData) => {
     try {
       if (taskData._id) {
         // Update
         const updated = await api.updateTask(taskData._id, taskData);
         setTasks((prev) => prev.map((t) => (t._id === updated._id ? updated : t)));
+        setIsTaskModalOpen(false);
+        setTaskToEdit(null);
+        showTaskUpdatedAlert(taskData.title);
       } else {
         // Create
         const created = await api.createTask(taskData);
         setTasks((prev) => [created, ...prev]);
+        setIsTaskModalOpen(false);
+        setTaskToEdit(null);
+        showTaskCreatedAlert(taskData.title);
       }
-      setIsTaskModalOpen(false);
-      setTaskToEdit(null);
+
       // Refresh stats
       const stats = await api.getWeeklyStats();
       setWeeklyStats(stats);
     } catch (err) {
       console.error('Failed to save task:', err);
-      alert('Failed to save task. Please try again.');
+      showErrorAlert('Save Failed', 'There was a problem saving your task.');
     }
   };
 
-  // Delete Task
+  // Delete Task with SweetAlert2 Confirmation Dialog
   const handleDeleteTask = async (id) => {
+    const targetTask = tasks.find((t) => t._id === id);
+    const confirmed = await confirmDeleteTask(targetTask?.title);
+    if (!confirmed) return;
+
     const originalTasks = [...tasks];
     // Optimistic removal
     setTasks((prev) => prev.filter((t) => t._id !== id));
+    notifySuccess('Task deleted successfully');
 
     try {
       await api.deleteTask(id);
@@ -126,14 +153,19 @@ export default function App() {
     } catch (err) {
       console.error('Failed to delete task:', err);
       setTasks(originalTasks);
+      showErrorAlert('Delete Failed', 'Could not delete the task.');
     }
   };
 
-  // Reset to initial demo mock tasks
-  const handleResetData = () => {
+  // Reset to initial demo mock tasks with SweetAlert2 Confirmation
+  const handleResetData = async () => {
+    const confirmed = await confirmResetData();
+    if (!confirmed) return;
+
     const initial = api.resetLocalDemo();
     setTasks(initial);
-    loadData();
+    await loadData();
+    notifySuccess('Demo tasks successfully restored!');
   };
 
   return (

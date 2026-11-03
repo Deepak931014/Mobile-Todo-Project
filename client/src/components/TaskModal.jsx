@@ -214,3 +214,4 @@ export default function TaskModal({ isOpen, onClose, onSave, taskToEdit = null, 
     </div>
   );
 }
+

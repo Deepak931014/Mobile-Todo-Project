@@ -3,6 +3,7 @@ import { Search, Settings, Bell, CheckSquare, XSquare, Plus } from 'lucide-react
 import StatusBar from './StatusBar';
 import WeekStrip from './WeekStrip';
 import TaskCard from './TaskCard';
+import { showInfoAlert } from '../utils/alertUtils';
 
 export default function HomeScreen({
   tasks = [],
@@ -25,6 +26,10 @@ export default function HomeScreen({
   const pendingCount = weeklyStats?.currentWeek?.openCount ?? tasks.filter((t) => t.status !== 'Completed').length;
   const totalCount = completedCount + pendingCount;
   const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+  const handleNotificationsClick = () => {
+    showInfoAlert('Notifications', 'You have no new notifications right now. Keep up the great work!');
+  };
 
   return (
     <div className="flex flex-col h-full w-full bg-[#FAFAFC] relative select-none overflow-hidden">
@@ -54,13 +59,13 @@ export default function HomeScreen({
               <Search className="w-5 h-5" />
             </button>
             <button
-              onClick={() => alert('No new notifications')}
+              onClick={handleNotificationsClick}
               className="p-2 hover:bg-slate-100 rounded-full text-slate-600 transition relative"
               title="Notifications"
               aria-label="Notifications"
             >
               <Bell className="w-5 h-5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
             </button>
           </div>
         </div>
@@ -177,7 +182,7 @@ export default function HomeScreen({
                 onClick={() => onOpenNewTask(selectedDate)}
                 className="mt-2 text-xs font-semibold text-[#3B5DF7] hover:underline"
               >
-                + Add a task for today
+                + Add a task for this date
               </button>
             </div>
           ) : (
