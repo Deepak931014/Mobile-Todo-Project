@@ -1,0 +1,14 @@
+{
+  "name": "todo-list-mern-assignment",
+  "version": "1.0.0",
+  "description": "SDE-1 (MERN Stack) Assignment - To-Do List Mobile App based on Figma design",
+  "scripts": {
+    "server": "cd server && npm start",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "install:all": "cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": ["mern", "react", "express", "mongodb", "tailwind", "figma", "todo-mobile-app"],
+  "author": "Deepu",
+  "license": "MIT"
+}
