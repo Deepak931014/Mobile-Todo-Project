@@ -21,6 +21,7 @@ export default function App() {
     return localStorage.getItem('taskflow_onboarded') === 'true' ? 'home' : 'onboarding';
   });
 
+  const [isPhoneFrame, setIsPhoneFrame] = useState(true);
   const [tasks, setTasks] = useState([]);
   const [selectedDate, setSelectedDate] = useState(() => formatDateKey(new Date()));
   const [weeklyStats, setWeeklyStats] = useState(null);
@@ -169,7 +170,11 @@ export default function App() {
   };
 
   return (
-    <MobileFrame onResetData={handleResetData}>
+    <MobileFrame
+      isPhoneFrame={isPhoneFrame}
+      onToggleFrameMode={() => setIsPhoneFrame((prev) => !prev)}
+      onResetData={handleResetData}
+    >
       {/* Onboarding Screen */}
       {currentScreen === 'onboarding' && (
         <OnboardingScreen onGetStarted={handleGetStarted} />
@@ -189,6 +194,7 @@ export default function App() {
           onEditTask={handleEditTask}
           onDeleteTask={handleDeleteTask}
           onResetOnboarding={handleResetOnboarding}
+          isPhoneFrame={isPhoneFrame}
         />
       )}
 

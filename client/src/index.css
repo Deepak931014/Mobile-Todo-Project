@@ -11,6 +11,21 @@
   }
 }
 
+/* Custom slim scrollbar for modern desktop experience */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 /* Custom hide-scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -25,4 +40,3 @@
   background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
   background-size: 16px 16px;
 }
-
